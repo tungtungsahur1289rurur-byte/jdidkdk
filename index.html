@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GORIORIO TOP UP</title>
+<style>
+:root{--bg:#07111f;--panel:#0d1b2d;--panel2:#10243b;--blue:#168cff;--cyan:#42d6ff;--muted:#91a7bf;--white:#eef7ff;--line:#1c3855}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#123b65 0,transparent 34%),var(--bg);color:var(--white);font:15px Arial,sans-serif}
+header{padding:20px max(5%,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:#07111fcc;position:sticky;top:0;backdrop-filter:blur(12px);z-index:3}
+.logo{font-weight:900;letter-spacing:1px;font-size:20px}.logo span{color:var(--cyan)}nav a{color:var(--muted);text-decoration:none;margin-left:18px}
+main{max-width:1100px;margin:auto;padding:30px 20px}.hero{padding:32px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(120deg,#102b49,#0b192a);display:flex;justify-content:space-between;gap:20px;align-items:center}
+h1{font-size:clamp(28px,5vw,44px);margin:0 0 10px}.hero p,.muted{color:var(--muted);line-height:1.6}.pill{color:var(--cyan);font-size:12px;font-weight:bold;letter-spacing:1.5px}
+.heroMark{font-size:64px;color:var(--cyan);font-weight:900;text-shadow:0 0 30px #168cff88}
+.section{margin-top:30px}.section h2{font-size:21px}.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px}
+.game{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:16px;text-align:left;color:var(--white);cursor:pointer;transition:.2s}
+.game:hover,.game.active{border-color:var(--blue);background:var(--panel2);transform:translateY(-2px)}
+.game .emoji{font-size:30px;display:block;margin-bottom:12px}.game small{color:var(--muted)}
+.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}
+label{display:block;margin:14px 0 7px;color:#c9d9e9;font-size:13px}input,select{width:100%;background:#071523;color:var(--white);border:1px solid var(--line);border-radius:10px;padding:13px;outline:none}input:focus,select:focus{border-color:var(--blue)}
+.products{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}.product{padding:13px;background:#0a1726;border:1px solid var(--line);border-radius:12px;color:var(--white);text-align:left;cursor:pointer}.product.active{border-color:var(--cyan);background:#10304b}.product b{display:block;margin-bottom:6px}.product small{color:var(--muted)}
+.summary{background:#081725;border-radius:12px;padding:15px;margin:16px 0}.sumrow{display:flex;justify-content:space-between;margin:9px 0;color:var(--muted)}.sumrow strong{color:var(--white)}
+button.primary{border:0;background:linear-gradient(90deg,var(--blue),#0873dc);color:white;font-weight:bold;padding:14px 18px;border-radius:11px;width:100%;cursor:pointer}
+button.primary:hover{filter:brightness(1.12)}.notice{font-size:12px;color:#9bb0c5;line-height:1.6;margin-top:14px}.status{margin-top:15px;padding:13px;border-radius:10px;background:#10243b;color:var(--cyan);display:none;line-height:1.5}
+footer{text-align:center;padding:30px;color:#7189a3;border-top:1px solid var(--line);margin-top:40px;font-size:13px}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.heroMark{display:none}nav a{margin-left:10px;font-size:13px}.hero{padding:24px}}
+</style>
+</head>
+<body>
+<header><div class="logo">GORIORIO <span>TOP UP</span></div><nav><a href="#game">Game</a><a href="#order">Pesan</a></nav></header>
+<main>
+<section class="hero"><div><div class="pill">FAST • EASY • SECURE</div><h1>Top Up Game<br><span style="color:var(--cyan)">Jadi Lebih Mudah.</span></h1><p>Pilih game, masukkan data akun, lalu pilih nominal top up favoritmu.</p></div><div class="heroMark">GR</div></section>
+<section class="section" id="game"><h2>Pilih Game</h2><div class="games" id="games"></div></section>
+<section class="section layout" id="order">
+<div class="panel"><h2>Detail Pesanan</h2>
+<label>Game dipilih</label><input id="gameName" readonly value="Free Fire">
+<label>User ID</label><input id="userId" placeholder="Masukkan User ID">
+<label>Server ID (jika diperlukan)</label><input id="serverId" placeholder="Masukkan Server ID (opsional)">
+<label>Pilih nominal</label><div class="products" id="products"></div>
+<label>Metode pembayaran</label><select id="payment"><option value="QRIS">QRIS</option><option value="TRANSFER">Transfer bank (perlu integrasi)</option><option value="EWALLET">E-Wallet (perlu integrasi)</option></select>
+</div>
+<div class="panel"><h2>Ringkasan</h2><div class="summary"><div class="sumrow"><span>Produk</span><strong id="sumProduct">Belum dipilih</strong></div><div class="sumrow"><span>Game</span><strong id="sumGame">Free Fire</strong></div><div class="sumrow"><span>Harga demo</span><strong id="sumPrice">Rp0</strong></div><div class="sumrow"><span>Pembayaran</span><strong id="sumPayment">QRIS</strong></div><hr style="border-color:var(--line)"><div class="sumrow"><strong>Total</strong><strong id="total" style="color:var(--cyan)">Rp0</strong></div></div>
+<button class="primary" id="orderBtn">Buat Pesanan Demo</button><div class="status" id="status"></div>
+<p class="notice">Ini masih tampilan demo. Tombol belum memproses top up atau menerima pembayaran sungguhan. Hubungkan API supplier dan payment gateway melalui backend sebelum website dipublikasikan.</p>
+</div>
+</section>
+</main><footer>© 2026 GORIORIO TOP UP • Digital Game Store</footer>
+<script>
+const catalog=[
+{name:"Free Fire",icon:"🔥",items:[["5 Diamonds",1500],["12 Diamonds",3500],["50 Diamonds",7500],["70 Diamonds",10000]]},
+{name:"Mobile Legends",icon:"⚔️",items:[["5 Diamonds",2000],["12 Diamonds",4000],["28 Diamonds",8500],["56 Diamonds",16000]]},
+{name:"PUBG Mobile",icon:"🎯",items:[["60 UC",15000],["325 UC",72000],["660 UC",140000]]},
+{name:"Roblox",icon:"🧱",items:[["80 Robux",18000],["400 Robux",85000],["800 Robux",165000]]},
+{name:"Genshin Impact",icon:"✨",items:[["60 Genesis",16000],["300 + 30 Genesis",79000]]},
+{name:"Valorant",icon:"💥",items:[["125 Points",16000],["420 Points",50000]]}
+];
+let selectedGame=0,selectedItem=-1;
+const rupiah=n=>"Rp"+n.toLocaleString("id-ID");
+function renderGames(){document.getElementById("games").innerHTML=catalog.map((g,i)=>`<button class="game ${i===selectedGame?"active":""}" data-game="${i}"><span class="emoji">${g.icon}</span><b>${g.name}</b><br><small>Pilih game</small></button>`).join("");document.querySelectorAll("[data-game]").forEach(b=>b.onclick=()=>{selectedGame=+b.dataset.game;selectedItem=-1;render()})}
+function renderProducts(){const items=catalog[selectedGame].items;document.getElementById("products").innerHTML=items.map((p,i)=>`<button class="product ${i===selectedItem?"active":""}" data-item="${i}"><b>${p[0]}</b><small>${rupiah(p[1])}</small></button>`).join("");document.querySelectorAll("[data-item]").forEach(b=>b.onclick=()=>{selectedItem=+b.dataset.item;renderProducts();updateSummary()})}
+function updateSummary(){const g=catalog[selectedGame],p=g.items[selectedItem];document.getElementById("gameName").value=g.name;document.getElementById("sumGame").textContent=g.name;document.getElementById("sumProduct").textContent=p?p[0]:"Belum dipilih";document.getElementById("sumPrice").textContent=p?rupiah(p[1]):"Rp0";document.getElementById("total").textContent=p?rupiah(p[1]):"Rp0";document.getElementById("sumPayment").textContent=document.getElementById("payment").value}
+function render(){renderGames();renderProducts();updateSummary()}
+document.getElementById("payment").onchange=updateSummary;
+document.getElementById("orderBtn").onclick=()=>{const id=document.getElementById("userId").value.trim(),p=catalog[selectedGame].items[selectedItem],s=document.getElementById("status");s.style.display="block";if(!id||!p){s.textContent="Lengkapi User ID dan pilih nominal terlebih dahulu.";return}const ref="GR"+Date.now().toString().slice(-9);s.textContent=`Pesanan demo dibuat: ${ref}. ${catalog[selectedGame].name} • ${p[0]} • ${rupiah(p[1])}. Belum ada pembayaran atau top up sungguhan.`};
+render();
+</script>
+</body></html>
